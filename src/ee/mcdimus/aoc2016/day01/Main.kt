@@ -1,7 +1,7 @@
 package ee.mcdimus.aoc2016.day01
 
-import ee.mcdimus.aoc2016.day01.FacingDirection.*
-import ee.mcdimus.aoc2016.day01.TurnDirection.*
+import ee.mcdimus.aoc2016.common.Coord
+import ee.mcdimus.aoc2016.common.Direction
 import java.util.*
 
 /**
@@ -56,7 +56,7 @@ fun main(vararg args: String) {
   val movements = input.split(", ").map(::Movement)
 
   val start = Coord(0, 0)
-  val startFacing = FacingDirection.N
+  val startFacing = Direction.N
 
   var firstLocationToBeVisitedTwice: Coord? = null
   val visitedLocations = HashSet<Coord>()
@@ -103,33 +103,3 @@ class Movement(movement: String) {
 }
 
 enum class TurnDirection { L, R }
-
-enum class FacingDirection {
-
-  N, E, S, W;
-
-  fun turn(turnDirection: TurnDirection): FacingDirection {
-    return when (turnDirection) {
-      R -> FacingDirection.values()[(this.ordinal + 1) % 4]
-      L -> FacingDirection.values()[if ((this.ordinal - 1) < 0) 3 else (this.ordinal - 1)]
-    }
-  }
-
-}
-
-data class Coord(val x: Int, val y: Int) {
-
-  fun move(facingDirection: FacingDirection, distance: Int): Coord {
-    return when (facingDirection) {
-      N -> Coord(this.x + distance, this.y)
-      E -> Coord(this.x, this.y + distance)
-      S -> Coord(this.x - distance, this.y)
-      W -> Coord(this.x, this.y - distance)
-    }
-  }
-
-  fun distanceTo(other: Coord) = Math.abs(other.x - this.x) + Math.abs(other.y - this.y)
-
-  override fun toString() = "($x, $y)"
-
-}
