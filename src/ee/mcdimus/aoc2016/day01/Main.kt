@@ -1,6 +1,6 @@
 package ee.mcdimus.aoc2016.day01
 
-import ee.mcdimus.aoc2016.day01.Facing.*
+import ee.mcdimus.aoc2016.day01.FacingDirection.*
 import ee.mcdimus.aoc2016.day01.TurnDirection.*
 import java.util.*
 
@@ -43,7 +43,7 @@ import java.util.*
  * How many blocks away is the first location you visit twice?
  *
  * @author Dmitri Maksimov
- * @see <a href="http://adventofcode.com/2016/day/1">http://adventofcode.com/2016/day/1</a>
+ * @see <a href="http://adventofcode.com/2016/day/1">Day 1: No Time for a Taxicab</a>
  */
 fun main(vararg args: String) {
   val input = "R1, L3, R5, R5, R5, L4, R5, R1, R2, L1, L1, R5, R1, L3, L5, L2, R4, L1, R4, R5, L3, R5, L1, R3, L5, " +
@@ -56,7 +56,7 @@ fun main(vararg args: String) {
   val movements = input.split(", ").map(::Movement)
 
   val start = Coord(0, 0)
-  val startFacing = Facing.N
+  val startFacing = FacingDirection.N
 
   var firstLocationToBeVisitedTwice: Coord? = null
   val visitedLocations = HashSet<Coord>()
@@ -104,14 +104,14 @@ class Movement(movement: String) {
 
 enum class TurnDirection { L, R }
 
-enum class Facing {
+enum class FacingDirection {
 
   N, E, S, W;
 
-  fun turn(turnDirection: TurnDirection): Facing {
+  fun turn(turnDirection: TurnDirection): FacingDirection {
     return when (turnDirection) {
-      R -> Facing.values()[(this.ordinal + 1) % 4]
-      L -> Facing.values()[if ((this.ordinal - 1) < 0) 3 else (this.ordinal - 1)]
+      R -> FacingDirection.values()[(this.ordinal + 1) % 4]
+      L -> FacingDirection.values()[if ((this.ordinal - 1) < 0) 3 else (this.ordinal - 1)]
     }
   }
 
@@ -119,8 +119,8 @@ enum class Facing {
 
 data class Coord(val x: Int, val y: Int) {
 
-  fun move(facing: Facing, distance: Int): Coord {
-    return when (facing) {
+  fun move(facingDirection: FacingDirection, distance: Int): Coord {
+    return when (facingDirection) {
       N -> Coord(this.x + distance, this.y)
       E -> Coord(this.x, this.y + distance)
       S -> Coord(this.x - distance, this.y)
